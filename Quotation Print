@@ -1,0 +1,968 @@
+<style>
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.print-format {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #000;
+}
+
+#header-html,
+#footer-html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+#header-html img,
+#footer-html img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+.scs-print {
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #000;
+    line-height: 1;
+}
+
+.scs-print * {
+    box-sizing: border-box;
+}
+
+.proforma-title {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin: 0 0 10px 0;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 6px;
+}
+
+.info-table td {
+    vertical-align: top;
+    font-size: 12px;
+    padding: 1px 4px;
+}
+
+.info-inner {
+    width: 100%;
+    border-spacing: 0;
+}
+
+.info-inner td {
+    padding: 0 4px;
+}
+
+.info-label {
+    width: 60px;
+    font-weight: bold;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 6px;
+    border: 1px solid #000;
+}
+
+.items-table thead {
+    display: table-header-group;
+}
+
+.items-table tbody {
+    display: table-row-group;
+}
+
+.items-table tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.items-table th,
+.items-table td {
+    border: 1px solid #000;
+    padding: 10px 8px;
+    font-size: 12px;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.items-table th {
+    background: #fff !important;
+    text-align: center;
+    font-weight: 700 !important;
+    color: #000;
+    font-size: 12px;
+}
+
+.col-sno {
+    width: 5%;
+    text-align: center;
+}
+
+.col-model {
+    width: 13%;
+    text-align: center;
+}
+
+.col-desc {
+    width: 38%;
+}
+
+.col-hsn {
+    width: 10%;
+    text-align: center;
+}
+
+.col-rate {
+    width: 11%;
+    text-align: right;
+}
+
+.col-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.col-amount {
+    width: 15%;
+    text-align: right;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.totals-row td {
+    font-weight: bold;
+}
+
+.in-words {
+    text-align: center;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.closing-block {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 4px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.closing-block tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.closing-block td {
+    font-size: 12px;
+    padding: 2px 4px;
+    vertical-align: top;
+    line-height: 1;
+    word-wrap: break-word;
+}
+
+.terms-label {
+    width: 185px;
+    font-weight: bold;
+}
+
+.terms-value {
+    width: auto;
+    padding-left: 18px;
+    text-indent: -14px;
+}
+
+.section-heading-row td {
+    font-weight: bold;
+    text-decoration: underline;
+    padding-top: 6px;
+    padding-bottom: 2px;
+    font-size: 12px;
+}
+
+.section-heading-row:first-child td {
+    padding-top: 0;
+}
+
+.signature-table {
+    width: 100%;
+    margin-top: 18px;
+    border-collapse: collapse;
+}
+
+.signature-table td {
+    font-size: 12px;
+    font-weight: bold;
+    vertical-align: top;
+    padding-top: 20px;
+    padding-bottom: 35px;
+    line-height: 1;
+}
+</style>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+
+<div id="header-html">
+
+<img
+    src="{{ frappe.utils.get_url() }}/files/Header.jpg.jpeg"
+    alt="Company Header"
+>
+
+
+</div>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+
+<div class="scs-print">
+
+
+<div class="proforma-title">
+    PROFORMA INVOICE
+</div>
+
+
+<table class="info-table">
+
+    <tr>
+
+        <td style="width:60%;">
+
+            <b>TO</b><br>
+
+            {{ (doc.customer_name or doc.party_name or "").upper() }}<br>
+
+            {{ (doc.address_display or "").upper() }}
+
+        </td>
+
+
+        <td style="width:40%;">
+
+            <table class="info-inner">
+
+                <tr>
+
+                    <td class="info-label">
+                        DATE
+                    </td>
+
+                    <td class="nowrap">
+                        :
+                        {{ frappe.utils.formatdate(
+                            doc.transaction_date,
+                            "dd-mm-yyyy"
+                        ) }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td class="info-label">
+                        REF.
+                    </td>
+
+                    <td>
+                        : {{ doc.name }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td class="info-label">
+                        PH.NO.
+                    </td>
+
+                    <td class="nowrap">
+                        : {{ doc.contact_mobile or "" }}
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </td>
+
+    </tr>
+
+</table>
+
+
+<p style="margin:6px 0 2px 0;">
+    SIR,
+</p>
+
+<p style="margin:0 0 8px 0;">
+    WE THANK YOU FOR YOUR ENQUIRY AND HAVE PLEASURE IN
+    SUBMITTING OUR QUOTATION AS BELOW :
+</p>
+
+
+<!-- ============================================================
+     ITEMS
+     ============================================================ -->
+
+<table class="items-table">
+
+    <colgroup>
+
+        <col class="col-sno">
+        <col class="col-model">
+        <col class="col-desc">
+        <col class="col-hsn">
+        <col class="col-rate">
+        <col class="col-qty">
+        <col class="col-amount">
+
+    </colgroup>
+
+
+    <thead>
+
+        <tr>
+
+            <th rowspan="2">
+                S. NO.
+            </th>
+
+            <th rowspan="2">
+                MODEL NO.
+            </th>
+
+            <th rowspan="2">
+                DESCRIPTION
+            </th>
+
+            <th rowspan="2">
+                HSN CODE
+            </th>
+
+            <th>
+                UNIT PRICE
+            </th>
+
+            <th>
+                QTY
+            </th>
+
+            <th>
+                AMOUNT
+            </th>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                IN INR.
+            </th>
+
+            <th>
+                IN NOS.
+            </th>
+
+            <th>
+                IN INR.
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for item in doc.items %}
+
+        <tr>
+
+            <td class="col-sno">
+                {{ loop.index }}
+            </td>
+
+
+            <td class="col-model">
+                {{ frappe.db.get_value("Item", item.item_code, "custom_model_no") or "" }}
+            </td>
+
+
+            <td class="col-desc">
+
+                {{ item.item_name }}
+
+                {% if item.description
+                    and item.description != item.item_name %}
+
+                    <br>
+
+                    <span style="font-weight:normal;">
+                        {{ item.description }}
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+
+            <td class="col-hsn nowrap">
+                {{ item.gst_hsn_code or "" }}
+            </td>
+
+
+            <td class="col-rate nowrap">
+                {{ frappe.utils.fmt_money(item.rate, currency=doc.currency) }}
+            </td>
+
+
+            <td class="col-qty">
+                {{ item.qty|int }}
+            </td>
+
+
+            <td class="col-amount nowrap">
+                {{ frappe.utils.fmt_money(item.amount, currency=doc.currency) }}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+
+        <!-- SUB TOTAL -->
+
+        <tr class="totals-row">
+
+            <td class="col-sno"></td>
+
+            <td class="col-model"></td>
+
+            <td class="col-desc"></td>
+
+            <td class="col-hsn"></td>
+
+            <td class="col-rate" style="text-align:right;">
+                SUB TOTAL
+            </td>
+
+            <td class="col-qty">
+                {{ doc.total_qty|int }}
+            </td>
+
+            <td class="col-amount nowrap">
+                {{ frappe.utils.fmt_money(doc.net_total, currency=doc.currency) }}
+            </td>
+
+        </tr>
+
+
+        <!-- TAX (grouped by item-wise GST rate) -->
+
+        {% set ns = namespace(groups=[]) %}
+
+        {% for item in doc.items %}
+
+            {% set item_rates = namespace(cgst=0, sgst=0, igst=0) %}
+            {% set rates = frappe.utils.parse_json(item.item_tax_rate) if item.item_tax_rate else {} %}
+
+            {% for head, rate in rates.items() %}
+                {% if 'CGST' in head %}
+                    {% set item_rates.cgst = rate %}
+                {% elif 'SGST' in head or 'UTGST' in head %}
+                    {% set item_rates.sgst = rate %}
+                {% elif 'IGST' in head %}
+                    {% set item_rates.igst = rate %}
+                {% endif %}
+            {% endfor %}
+
+            {% set total_rate = item_rates.igst if item_rates.igst else (item_rates.cgst + item_rates.sgst) %}
+            {% set cgst_amt = item.amount * item_rates.cgst / 100 %}
+            {% set sgst_amt = item.amount * item_rates.sgst / 100 %}
+            {% set igst_amt = item.amount * item_rates.igst / 100 %}
+
+            {% if ns.groups and ns.groups[-1].rate == total_rate %}
+
+                {% set g = ns.groups[-1] %}
+                {% set _ = g.update({
+                    'last_sno': loop.index,
+                    'cgst_amt': g.cgst_amt + cgst_amt,
+                    'sgst_amt': g.sgst_amt + sgst_amt,
+                    'igst_amt': g.igst_amt + igst_amt
+                }) %}
+
+            {% else %}
+
+                {% set _ = ns.groups.append({
+                    'first_sno': loop.index,
+                    'last_sno': loop.index,
+                    'rate': total_rate,
+                    'cgst_rate': item_rates.cgst,
+                    'sgst_rate': item_rates.sgst,
+                    'igst_rate': item_rates.igst,
+                    'cgst_amt': cgst_amt,
+                    'sgst_amt': sgst_amt,
+                    'igst_amt': igst_amt
+                }) %}
+
+            {% endif %}
+
+        {% endfor %}
+
+
+        {% if ns.groups %}
+
+            {% for g in ns.groups %}
+
+                {% set label %}
+                    {% if g.last_sno == g.first_sno %}ITEM {{ g.first_sno }}
+                    {%- elif g.last_sno == g.first_sno + 1 %}ITEMS {{ g.first_sno }} & {{ g.last_sno }}
+                    {%- else %}ITEMS {{ g.first_sno }} TO {{ g.last_sno }}
+                    {%- endif %} @ {{ '%g'|format(g.rate) }}%
+                {% endset %}
+
+                {% if g.igst_rate %}
+
+                <tr class="totals-row">
+
+                    <td class="col-sno"></td>
+
+                    <td class="col-model" style="vertical-align:middle;">
+                        {{ label.strip() }}
+                    </td>
+
+                    <td class="col-desc">
+                        IGST @ {{ '%g'|format(g.igst_rate) }}%
+                    </td>
+
+                    <td class="col-hsn"></td>
+
+                    <td class="col-rate"></td>
+
+                    <td class="col-qty"></td>
+
+                    <td class="col-amount nowrap">
+                        {{ frappe.utils.fmt_money(g.igst_amt, currency=doc.currency) }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr class="totals-row">
+
+                    <td class="col-sno" rowspan="2"></td>
+
+                    <td class="col-model" rowspan="2" style="vertical-align:middle;">
+                        {{ label.strip() }}
+                    </td>
+
+                    <td class="col-desc">
+                        CGST @ {{ '%g'|format(g.cgst_rate) }}%
+                    </td>
+
+                    <td class="col-hsn" rowspan="2"></td>
+
+                    <td class="col-rate" rowspan="2"></td>
+
+                    <td class="col-qty" rowspan="2"></td>
+
+                    <td class="col-amount nowrap">
+                        {{ frappe.utils.fmt_money(g.cgst_amt, currency=doc.currency) }}
+                    </td>
+
+                </tr>
+
+
+                <tr class="totals-row">
+
+                    <td class="col-desc">
+                        SGST @ {{ '%g'|format(g.sgst_rate) }}%
+                    </td>
+
+                    <td class="col-amount nowrap">
+                        {{ frappe.utils.fmt_money(g.sgst_amt, currency=doc.currency) }}
+                    </td>
+
+                </tr>
+
+                {% endif %}
+
+            {% endfor %}
+
+        {% else %}
+
+            <!-- Fallback: no item-wise tax rate found, show tax table rows as-is -->
+            {% for tax in doc.taxes %}
+
+            <tr class="totals-row">
+
+                <td class="col-sno"></td>
+
+                <td class="col-model"></td>
+
+                <td class="col-desc"></td>
+
+                <td class="col-hsn"></td>
+
+                <td class="col-rate" style="text-align:right;">
+
+                    {{ tax.description }}
+
+                    {% if tax.rate %}
+                        @ {{ '%g'|format(tax.rate) }}%
+                    {% endif %}
+
+                </td>
+
+                <td class="col-qty"></td>
+
+                <td class="col-amount nowrap">
+                    {{ frappe.utils.fmt_money(tax.tax_amount, currency=doc.currency) }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <!-- NET TOTAL -->
+
+        <tr class="totals-row">
+
+            <td class="col-sno"></td>
+
+            <td class="col-model"></td>
+
+            <td class="col-desc"></td>
+
+            <td class="col-hsn"></td>
+
+            <td class="col-rate" style="text-align:right;">
+                NET TOTAL
+            </td>
+
+            <td class="col-qty"></td>
+
+            <td class="col-amount nowrap">
+                {{ frappe.utils.fmt_money(doc.grand_total, currency=doc.currency) }}
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+
+<!-- AMOUNT IN WORDS -->
+
+<div class="in-words">
+
+    (
+    {{ doc.in_words.upper() if doc.in_words else "" }}
+    )
+
+</div>
+
+
+<!-- ============================================================
+     COMMERCIAL TERMS
+     ============================================================ -->
+
+<table class="closing-block">
+
+    <colgroup>
+        <col style="width:185px;">
+        <col style="width:auto;">
+    </colgroup>
+
+    <tr class="section-heading-row">
+
+        <td colspan="2">
+            COMMERCIAL TERMS &amp; CONDITIONS :
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            DELIVERY
+        </td>
+
+        <td class="terms-value">
+            : 7 DAYS AFTER RECEIVING THE PAYMENT.
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            PAYMENT
+        </td>
+
+        <td class="terms-value">
+            : <b>100% ADVANCE.</b>
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            VALIDITY
+        </td>
+
+        <td class="terms-value">
+            :
+            <b>
+                THIS QUOTATION IS VALID ONLY FOR 15 DAYS.
+            </b>
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            TRANSPORT
+        </td>
+
+        <td class="terms-value">
+            :
+            WILL BE EXTRA FROM OUR OFFICE PLACE TO YOUR PLACE.
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            REQUIREMENTS
+        </td>
+
+        <td class="terms-value">
+            :
+            180V - 230V ADAPTED TO ALL ELECTRICITY
+            ENVIRONMENT &amp; SERVO STABILIZER COMPULSORY
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            SERVICE &amp; WARRANTY
+        </td>
+
+        <td class="terms-value">
+            :
+            <b>
+                6 MONTHS FREE SERVICE AND 1 YEAR WARRANTY
+                (FOR MANUFACTURING DEFECTS ONLY).
+            </b>
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            COMMISSIONING &amp; SCOPE
+        </td>
+
+        <td class="terms-value">
+            :
+            COMMISSIONING IS FREE; MACHINE UNLOADING CHARGES,
+            TECHNICIAN FOOD &amp; ACCOMMODATION WILL BE UNDER
+            CUSTOMER SCOPE.
+        </td>
+
+    </tr>
+
+
+    <!-- ========================================================
+         BANK DETAILS
+         ======================================================== -->
+
+    <tr class="section-heading-row">
+
+        <td colspan="2">
+            BANK DETAILS :
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            ACCOUNT NAME
+        </td>
+
+        <td class="terms-value">
+            : SREE CHAKRA SEWING SYSTEMS
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            ACCOUNT NO
+        </td>
+
+        <td class="terms-value">
+            : 05550500002079
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            BANK NAME
+        </td>
+
+        <td class="terms-value">
+            : BANK OF BARODA
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            BRANCH
+        </td>
+
+        <td class="terms-value">
+            : PONMENI
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            IFSC CODE
+        </td>
+
+        <td class="terms-value">
+            : BARB0POONME
+        </td>
+
+    </tr>
+
+
+    <tr>
+
+        <td class="terms-label">
+            ACCOUNT TYPE
+        </td>
+
+        <td class="terms-value">
+            : CC
+        </td>
+
+    </tr>
+
+
+    <!-- ========================================================
+         SIGNATURE
+         ======================================================== -->
+
+    <tr>
+
+        <td colspan="2">
+
+            <table class="signature-table">
+
+                <tr>
+
+                    <td style="width:50%; text-align:left;">
+
+                        ACCEPTED<br>
+                        (COMPANY SEAL WITH SIGN)
+
+                    </td>
+
+
+                    <td style="width:50%; text-align:right;">
+
+                        FOR SREE CHAKRA SEWING SYSTEMS<br>
+                        AUTHORISED SIGNATURE
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </td>
+
+    </tr>
+
+</table>
+
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+
+<div id="footer-html">
+
+<img
+    src="{{ frappe.utils.get_url() }}/files/Footer.jpg.jpeg"
+    alt="Company Footer"
+>
+
+</div>
