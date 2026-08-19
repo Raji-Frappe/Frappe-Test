@@ -310,6 +310,20 @@ body {
                         : {{ doc.contact_mobile or "" }}
                     </td>
 
+                </tr
+                
+                
+                
+                <tr>
+
+                    <td class="info-label">
+                       SALES PH.NO.
+                    </td>
+
+                    <td class="nowrap">
+                        : {{ doc.custom_sales_person_phone or "" }}
+                    </td>
+
                 </tr>
 
             </table>
@@ -923,28 +937,30 @@ body {
 
         <td colspan="2">
 
-            <table class="signature-table">
+          <table class="signature-table">
+    <tr>
+        <td style="width:50%; text-align:left; vertical-align:bottom;">
 
-                <tr>
+            <img
+                src="{{ frappe.utils.get_url() }}/files/chakra1.png"
+                alt="Company Seal"
+                style="width:120px; height:auto; display:block; margin-bottom:5px;"
+            >
 
-                    <td style="width:50%; text-align:left;">
+            ACCEPTED<br>
+            (COMPANY SEAL WITH SIGN)
 
-                        ACCEPTED<br>
-                        (COMPANY SEAL WITH SIGN)
+        </td>
 
-                    </td>
+        <td style="width:50%; text-align:right; vertical-align:bottom;">
 
+            FOR SREE CHAKRA SEWING SYSTEMS<br>
+            <br>
+            AUTHORISED SIGNATURE
 
-                    <td style="width:50%; text-align:right;">
-
-                        FOR SREE CHAKRA SEWING SYSTEMS<br>
-                        AUTHORISED SIGNATURE
-
-                    </td>
-
-                </tr>
-
-            </table>
+        </td>
+    </tr>
+</table>
 
         </td>
 
