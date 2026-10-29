@@ -1,0 +1,483 @@
+<style>
+* {
+    box-sizing: border-box;
+}
+
+@page {
+    size: A4;
+    margin: 4mm;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.print-container {
+    width: 100%;
+}
+
+.main-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 2px solid #000;
+    border-right: 2px solid #000;
+    page-break-inside: avoid;
+}
+
+.main-table tr {
+    page-break-inside: avoid;
+}
+
+.main-table td,
+.main-table th {
+    border: 1px solid #000;
+    padding: 5px;
+    vertical-align: top;
+}
+
+/* Reinforce the right edge on every row so collapsing borders can't thin it out */
+.main-table > tbody > tr > td:last-child,
+.main-table > tbody > tr > th:last-child {
+    border-right: 3px solid #000 !important;
+}
+
+.main-table tr.no-vert td {
+    border-left: none;
+    border-right: none;
+}
+
+.addr-line {
+    display: block;
+    font-size: 17px;
+    line-height: 16px;
+}
+
+.addr-po {
+    display: block;
+    line-height: 14px;
+    margin-top: 2px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.logo-cell {
+    text-align: left;
+    vertical-align: middle;
+    padding: 0 !important;
+    white-space: nowrap;
+}
+
+.logo-inner-table {
+    width: 100%;
+    height: 95px;
+    border-collapse: collapse;
+}
+
+.logo-split-cell {
+    width: 50%;
+    height: 90px;
+    text-align: center;
+    vertical-align: middle;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.logo {
+    height: 100%;
+    width: 100%;
+    display: block;
+    object-fit: fill;
+}
+
+.header-title {
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.company-header-full {
+    text-align: right;
+    vertical-align: middle !important;
+    padding: 4px 8px !important;
+    white-space: nowrap;
+}
+
+.brand-name {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    line-height: 1.05;
+    white-space: nowrap;
+}
+
+.brand-sub {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    line-height: 1.05;
+    margin-left: 8px;
+}
+
+.company-address {
+    font-size: 12.5px;
+    line-height: 12.5px;
+    margin-top: 3px;
+}
+
+.meta-outer-cell {
+    padding: 0 !important;
+}
+
+.meta-inner-table {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    background-color: #d9d9d9;
+}
+
+.meta-inner-table td {
+    border: none;
+    vertical-align: middle;
+    padding: 6px 8px;
+    font-size: 14px;
+}
+
+.meta-side-cell {
+    white-space: nowrap;
+}
+
+.item-head th {
+    color: #000000 !important;
+    background-color: #d9d9d9;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid #000;
+    padding: 6px;
+}
+
+.item-row td {
+    height: 19px;
+    font-size: 16px;
+    line-height: 1.1;
+    padding: 2px 5px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-top: none;
+    border-bottom: none;
+}
+
+.item-row td.fabric-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.total-row td {
+    font-weight: bold;
+    font-size: 17px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-top: 1px solid #000;
+    border-bottom: none;
+    height: 27px;
+}
+
+.footer-outer-cell {
+    padding: 0 !important;
+}
+
+.footer-inner-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.footer-inner-table td {
+    border: none;
+    height: 90px;
+    vertical-align: bottom;
+    font-weight: normal;
+    font-size: 16px;
+    padding: 4px 4px 10px 4px;
+    white-space: nowrap;
+    width: 33.333%;
+}
+
+.addr-outer-cell {
+    padding: 0 !important;
+}
+
+.addr-inner-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.addr-inner-table td {
+    border: none;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.addr-inner-table .to-col {
+    width: 50%;
+    border-right: 1.5px solid #000;
+}
+
+.addr-inner-table .delivery-col {
+    width: 50%;
+}
+
+.cv-outer-cell {
+    padding: 0 !important;
+}
+
+.cv-inner-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.cv-inner-table td {
+    border: none;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.cv-inner-table .colour-col {
+    width: 50%;
+    border-right: 1px solid #000;
+}
+
+.cv-inner-table .vehicle-col {
+    width: 50%;
+}
+
+.colour-cell {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.vehicle-cell {
+    font-size: 20px;
+}
+</style>
+
+<div class="print-container">
+
+{% set to_supplier = frappe.db.get_value("Supplier", doc.to, "supplier_name") if doc.to else '' %}
+{% set to_addr_doc = frappe.get_doc("Address", doc.to_address) if doc.get('to_address') else None %}
+{% set to_gstin = to_addr_doc.gstin if to_addr_doc and to_addr_doc.gstin else (frappe.db.get_value("Supplier", doc.to, "gstin") if doc.to else '') %}
+{% set to_lines = (doc.to_adress or '').replace('\r\n','\n').split('\n') | map('trim') | select() | list %}
+
+{% set delivery_supplier = frappe.db.get_value("Supplier", doc.delivery_to, "supplier_name") if doc.delivery_to else '' %}
+{% set delivery_addr_doc = frappe.get_doc("Address", doc.delivery_address) if doc.get('delivery_address') else None %}
+{% set delivery_gstin = delivery_addr_doc.gstin if delivery_addr_doc and delivery_addr_doc.gstin else (frappe.db.get_value("Supplier", doc.delivery_to, "gstin") if doc.delivery_to else '') %}
+{% set del_lines = ((doc.delivery_adress or doc.delivery_address or '')).replace('\r\n','\n').split('\n') | map('trim') | select() | list %}
+
+<table class="main-table">
+
+    <colgroup>
+        {% for i in range(20) %}<col style="width:5%">{% endfor %}
+    </colgroup>
+
+    <!-- Header Row 1: Logo + full-width Company wordmark (no internal borders) -->
+    <tr class="no-vert">
+        <td class="logo-cell" colspan="8">
+            <table class="logo-inner-table">
+                <tr>
+                    <td class="logo-split-cell"><img src="/files/poomerlogo.png" class="logo"></td>
+                    <td class="logo-split-cell"><img src="/files/Presta%20Logo.png" class="logo"></td>
+                </tr>
+            </table>
+        </td>
+
+        <td colspan="12" class="company-header-full">
+            <span class="brand-name">Poomer<span class="brand-sub">Clothing Company</span></span>
+            <div class="company-address">
+                SF No.597/1, Sevanthampalayam Road,<br>
+                Muthanampalayam Nall Road, Nallur, Tirupur - 641606<br>
+                Phone : +91-421-4333332, EMail : contact@poomer.net<br>
+                GST No : 33ABAFP6080C1ZM
+            </div>
+        </td>
+    </tr>
+
+    <!-- Header Row 2: No / Title / Date + Po No — auto-sized columns, guaranteed single line -->
+    <tr class="no-vert">
+        <td colspan="20" class="meta-outer-cell">
+            <table class="meta-inner-table">
+                <tr>
+                    <td class="meta-side-cell" style="font-size: 19px;">
+                        <b>Program No :</b> <span style="font-size: 28px;">{{ doc.name.split('-')[-1]|int }}</span>
+                    </td>
+                   {% set program_type = "DYEING" if (doc.program_type or "").lower() == "dying" else (doc.program_type or "").upper() %}
+                    
+                    <td class="text-center" style="width:100%;">
+                        <div class="header-title" style="font-size: 19px;">{{ program_type }} PROGRAM</div>
+                    </td>
+                    <td class="meta-side-cell text-right">
+                        <div style="font-size: 19px;">
+                            <b>Date :</b> {{ frappe.utils.formatdate(doc.program_date or doc.posting_date, "dd-MM-yyyy") }}
+                        </div>
+                        {% if doc.purchase_order %}
+                        <div style="margin-top:2px; font-size: 19px;">
+                            <b>Po No :</b> {{ doc.purchase_order }}
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- To / Delivered To — narrower To column (40%) vs Delivery column (60%), via inner table
+         so this ratio is independent of the item table's colgroup widths below -->
+    <tr class="no-vert">
+        <td colspan="20" class="addr-outer-cell">
+            <table class="addr-inner-table">
+                <tr>
+                    <td class="to-col">
+                        <span class="addr-line"><b>To,</b></span>
+                        {% if doc.to %}
+                            <span class="addr-line"><b>{{ to_supplier or doc.to }}</b></span>
+                        {% endif %}
+                        {% if to_addr_doc %}
+                            <span class="addr-line">{{ to_addr_doc.address_line1 or '' }}</span>
+                            {% if to_addr_doc.address_line2 %}
+                                <span class="addr-line">{{ to_addr_doc.address_line2 }}</span>
+                            {% endif %}
+                            <span class="addr-line">{{ to_addr_doc.city or '' }}{% if to_addr_doc.state %}, {{ to_addr_doc.state }}{% endif %}</span>
+                            <span class="addr-line">{{ to_addr_doc.pincode or '' }}{% if to_addr_doc.country %} {{ to_addr_doc.country }}{% endif %}</span>
+                        {% else %}
+                            {% for line in to_lines %}
+                                <span class="addr-line">{{ line }}</span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if to_addr_doc and to_addr_doc.phone %}
+                            <span class="addr-line"><b>Phone :</b> {{ to_addr_doc.phone }}</span>
+                        {% endif %}
+                        {% if to_gstin %}
+                            <span class="addr-line"><b>GSTIN :</b> {{ to_gstin }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="delivery-col">
+                        <span class="addr-line"><b>{{ "Delivered To" if doc.docstatus == 1 else "Delivery To" }}.</b></span>
+                        {% if doc.delivery_to %}
+                            <span class="addr-line"><b>{{ delivery_supplier or doc.delivery_to }}</b></span>
+                        {% endif %}
+                        {% if delivery_addr_doc %}
+                            <span class="addr-line">{{ delivery_addr_doc.address_line1 or '' }}</span>
+                            {% if delivery_addr_doc.address_line2 %}
+                                <span class="addr-line">{{ delivery_addr_doc.address_line2 }}</span>
+                            {% endif %}
+                            <span class="addr-line">{{ delivery_addr_doc.city or '' }}{% if delivery_addr_doc.state %}, {{ delivery_addr_doc.state }}{% endif %}</span>
+                            <span class="addr-line">{{ delivery_addr_doc.pincode or '' }}{% if delivery_addr_doc.country %} {{ delivery_addr_doc.country }}{% endif %}</span>
+                        {% else %}
+                            {% for line in del_lines %}
+                                <span class="addr-line">{{ line }}</span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if delivery_addr_doc and delivery_addr_doc.phone %}
+                            <span class="addr-line"><b>Phone :</b> {{ delivery_addr_doc.phone }}</span>
+                        {% endif %}
+                        {% if delivery_gstin %}
+                            <span class="addr-line"><b>GSTIN :</b> {{ delivery_gstin }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- Colour / Vehicle No — even 50/50 via inner table, independent of item table colgroup widths -->
+    <tr class="no-vert">
+        <td colspan="20" class="cv-outer-cell">
+            <table class="cv-inner-table">
+                <tr>
+                    <td class="colour-col colour-cell">
+                        Colour : &nbsp;{{ doc.colour or '' }}<br>
+                    </td>
+                    <td class="vehicle-col vehicle-cell">
+                        <b>Vehicle No :</b> {{ doc.vehicle_no or doc.get('vechile_no') or '' }}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- Item Header — Fabric Details = 13/20 = 65%, Dia = 2/20 = 10%, Rolls = 2/20 = 10%,
+         Kilo Grams = 3/20 = 15%. Part of the same main table (no nested table) using the
+         fine-grained 20-col grid. -->
+    <tr class="item-head">
+        <th colspan="13">Fabric Details</th>
+        <th colspan="2">Dia</th>
+        <th colspan="2">Rolls</th>
+        <th colspan="3">Kilo Grams</th>
+    </tr>
+
+    <!-- Items -->
+    {% set item_count = doc.item|length %}
+    {% for row in doc.item %}
+    <tr class="item-row">
+        <td colspan="13" class="fabric-cell">{{ row.item or '' }}</td>
+        <td colspan="2" class="text-center">{{ row.dia or '' }}</td>
+        <td colspan="2" class="text-center">{{ row.roll or '' }}</td>
+        <td colspan="3" class="text-center">{{ row.kg or '' }}</td>
+    </tr>
+    {% endfor %}
+
+    <!-- Empty rows to fill remaining space — total rows (real + blank) capped so the table
+         height stays constant and the document fits on a single page -->
+    {% set filler_count = [7 - item_count, 0] | max %}
+    {% for i in range(filler_count) %}
+    <tr class="item-row">
+        <td colspan="13">&nbsp;</td>
+        <td colspan="2"></td>
+        <td colspan="2"></td>
+        <td colspan="3"></td>
+    </tr>
+    {% endfor %}
+
+    <!-- Total -->
+    <tr class="total-row">
+        <td colspan="13" class="text-right">Total</td>
+        <td colspan="2"></td>
+        <td colspan="2" class="text-center">{{ (doc.total_rolls or 0)|int }}</td>
+        <td colspan="3" class="text-center">{{ doc.total_kg or 0 }}</td>
+    </tr>
+
+    <!-- Footer — three equal-width cells via inner table, independent of main table colgroup -->
+    <tr class="no-vert">
+        <td colspan="20" class="footer-outer-cell">
+            <table class="footer-inner-table">
+                <tr>
+                    <td>Received</td>
+                    <td>Prepared</td>
+                    <td>for Poomer Clothing Company</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+</div>
