@@ -1,0 +1,653 @@
+<style>
+    @page {
+        size: A4;
+        margin-top: 0mm;
+        margin-left: 1mm;
+        margin-right: 1mm;
+        margin-bottom: 1mm;
+    }
+
+    body {
+        font-family: Arial;
+        font-size: 13px;
+        line-height:1;
+        color: #222;
+    }
+
+    table {
+        border-spacing: 0;
+    }
+
+    td,
+    th {
+        box-sizing: border-box;
+        padding: 0px 4px;
+        vertical-align: top;
+        word-break: break-word;
+    }
+
+    .inner-border td,
+    .inner-border th {
+        border: 1px solid #c7c7c7;
+    }
+
+    .outer-left td:first-child,
+    .outer-left th:first-child {
+        border-left: 1px solid #9e9e9e !important;
+    }
+
+    .outer-right td:last-child,
+    .outer-right th:last-child {
+        border-right: 1px solid #9e9e9e !important;
+    }
+
+    .outer-top tr:first-child td,
+    .outer-top tr:first-child th {
+        border-top: 1px solid #9e9e9e !important;
+    }
+
+    .outer-bottom tr:last-child td,
+    .outer-bottom tr:last-child th {
+        border-bottom: 1px solid #9e9e9e !important;
+    }
+
+    .header-grey {
+        background: #f5f5f5;
+        font-weight: bold;
+        color: #000;
+        font-size: 14px;
+    }
+
+    .header-grey th {
+        font-weight: 700 !important;
+        color: #000 !important;
+        padding: 1px 5px !important;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .small-text {
+        font-size: 12px;
+        line-height:1;
+        margin: 0;
+        padding: 0;
+        color: #444;
+    }
+
+    .main-box {
+        width: 100%;
+        overflow: visible;
+    }
+
+    #header-html .letterhead-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #header-html .letterhead-table td {
+        border: none;
+        vertical-align: middle;
+        padding: 0px 4px;
+    }
+
+    #header-html .letterhead-table td.logo-cell {
+        width: 30%;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #header-html .letterhead-table td.address-cell {
+        width: 38%;
+        padding-left: 4px;
+        vertical-align: middle;
+    }
+
+    #header-html .letterhead-table td.po-cell {
+        width: 40%;
+        vertical-align: middle;
+    }
+
+    #header-html .letterhead-table td.logo-cell img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        display: block;
+    }
+
+    #header-html .doc-title {
+        font-size: 19px;
+        font-weight: bold;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    #header-html .doc-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    #header-html .po-ref {
+        font-size: 13px;
+        text-align: right;
+        font-weight: bold;
+    }
+
+    #header-html .header-rule {
+        border-bottom: 1px solid #9e9e9e;
+        margin-top: 1px;
+    }
+
+    #footer-html {
+        font-size: 11px;
+        color: #555;
+    }
+
+    #footer-html .footer-rule {
+        border-top: 1px solid #c7c7c7;
+        margin-bottom: 1px;
+    }
+
+    #footer-html .footer-row td {
+        border: none;
+        padding: 0px 4px;
+    }
+
+    .item-table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .item-table thead {
+        display: table-header-group;
+    }
+
+    .item-table tbody {
+        display: table-row-group;
+    }
+
+    .item-table tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .item-table td,
+    .item-table th {
+        vertical-align: middle;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        line-height:1;
+    }
+
+    .no-border-inner td {
+        border: none !important;
+    }
+
+    .bottom-content .totals-col {
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    }
+    
+    .bottom-content .totals-col td {
+        border: none !important;
+    }
+
+    .notes-col {
+        width: 60%;
+        max-width: 60%;
+        padding: 2px 4px 2px;
+        overflow-wrap: break-word;
+    }
+
+    .notes-col * {
+        max-width: 100% !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    /* ===== FIXED: totals column now has proper right-side padding
+       so amounts (especially the larger/bold Total row) don't crowd
+       or touch the right border. box-sizing added so the extra
+       padding doesn't push the column wider than 40%. ===== */
+    .totals-col {
+        width: 40%;
+        padding: 0 12px 2px 4px;
+        border-left: none !important;
+        box-sizing: border-box;
+    }
+
+    .totals-box {
+        border: none;
+    }
+
+    .subtotal-table {
+        width: auto;
+        margin-left: auto;
+        margin-right: 0;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+    
+    .subtotal-table,
+    .subtotal-table tr,
+    .subtotal-table td,
+    .subtotal-table th {
+        border: none !important;
+        border-collapse: collapse !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    
+    /* ===== Table now shrinks to fit its content and is pushed to
+       the right of the totals column, so the label and value sit
+       close together instead of stretching across 40% width ===== */
+    .subtotal-table td {
+        padding: 0px 0 0px 5px;
+        line-height:1;
+        white-space: nowrap;
+    }
+    
+    .subtotal-table td:first-child {
+        text-align: left;
+        padding-right: 6px;
+    }
+    
+    .subtotal-table td:last-child {
+        text-align: right;
+        padding-left: 6px;
+    }
+    
+    .subtotal-table tr.total-row td {
+        font-weight: bold;
+    }
+
+    /* Prevent outer-top/outer-bottom rules from adding lines to the first/last
+       rows of the nested totals table (Sub Total / Total rows) */
+    .totals-box .subtotal-table tr:first-child td,
+    .totals-box .subtotal-table tr:last-child td {
+        border-top: none !important;
+        border-bottom: none !important;
+    }
+
+/* Remove any border around the totals box */
+.totals-box {
+    border: none !important;
+}
+
+/* Keep only the left separator if required */
+.totals-col {
+    width: 40%;
+    padding: 0 12px 2px 4px;
+    border-left: 1px solid #9e9e9e !important;
+    box-sizing: border-box;
+}
+    .signature-box {
+        margin-top: 0;
+        border-top: 1px solid #c7c7c7;
+        text-align: center;
+        padding-top: 1px;
+        padding-bottom: 2px;
+        font-weight: bold;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    .visible-pdf {
+        display: block;
+    }
+
+    .hidden-pdf {
+        display: block;
+    }
+
+    .item-total-row td {
+        border-top: 1px solid #9e9e9e !important;
+        background: #f9f9f9;
+        font-weight: bold;
+    }
+</style>
+
+{% set company_doc = frappe.get_doc("Company", doc.company) %}
+{% set company_addr = frappe.get_doc("Address", "Poomer Clothing Company-Billing") %}
+{% set currency_symbol = frappe.db.get_value("Currency", doc.currency, "symbol") or doc.currency %}
+
+{% macro inr(value, precision=2) %}
+{%- set v = value|float -%}
+{%- set neg = v < 0 -%}
+{%- set v = v|abs -%}
+{%- set s = ("%." + precision|string + "f")|format(v) -%}
+{%- set parts = s.split(".") -%}
+{%- set intpart = parts[0] -%}
+{%- set decpart = parts[1] -%}
+{%- set ns2 = namespace(result="") -%}
+{%- if intpart|length <= 3 -%}
+{%- set ns2.result = intpart -%}
+{%- else -%}
+{%- set ns2.result = intpart[-3:] -%}
+{%- set remaining = intpart[:-3] -%}
+{%- for i in range(remaining|length, 0, -2) -%}
+{%- set start = [i-2, 0]|max -%}
+{%- set ns2.result = remaining[start:i] + "," + ns2.result -%}
+{%- endfor -%}
+{%- endif -%}
+{{- ("-" if neg else "") + ns2.result + "." + decpart -}}
+{% endmacro %}
+
+<div id="header-html" class="hidden-pdf">
+
+    <table class="letterhead-table">
+        <tr>
+
+            <td class="logo-cell" width="30%">
+                {% if company_doc.company_logo %}
+                <img src="{{ company_doc.company_logo }}">
+                {% endif %}
+            </td>
+
+            <td class="address-cell" width="38%">
+                <div style="font-size:17px;font-weight:bold;line-height:1;">
+                    {{ company_doc.company_name }}
+                </div>
+                <div class="small-text">
+                    {{ company_addr.address_line1.replace(", Vaikkalmedu,", "") }}{% if company_addr.address_line2 %}, {{ company_addr.address_line2 }}{% endif %}
+                    <br>
+                    {{ company_addr.city }}, {{ company_addr.state }} - {{ company_addr.pincode }}
+                    <br>
+                    {{ company_addr.country }}{% if company_addr.gstin %} | GSTIN : {{ company_addr.gstin }}{% endif %}
+                </div>
+            </td>
+
+                        <td class="po-cell" width="40%" style="text-align:right; vertical-align:middle;">
+                <div style="font-size:19px;font-weight:bold;margin-bottom:2px;white-space:nowrap;">
+                    PURCHASE ORDER
+                </div>
+            
+                <div style="font-size:14px;line-height:1;">
+                    <div><b></b> {{ doc.name }}</div>
+                    <div><b></b> {{ doc.supplier_name }}</div>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+
+    <div class="header-rule"></div>
+
+</div>
+
+<div id="footer-html" class="visible-pdf">
+    <div class="footer-rule"></div>
+    <table class="footer-row" style="width:100%;">
+        <tr>
+            <td style="text-align:left;">
+                PO {{ doc.name }} &nbsp;|&nbsp; {{ frappe.utils.format_date(doc.transaction_date) }}
+            </td>
+            <td style="text-align:right;">
+                Page <span class="page"></span> of <span class="topage"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="main-box">
+
+    <table class="inner-border outer-left outer-right outer-top"
+        style="width:100%;table-layout:fixed; border-collapse:collapse;">
+        <tr class="header-grey">
+            <td colspan="2" style="font-size:19px;font-weight:bold;text-align:center;vertical-align:middle;">
+    Details
+</td>
+        </tr>
+       <tr>
+    <td width="50%" style="font-size:16px;line-height:1;padding:1px 6px;">
+        <span style="font-weight:bold;">PO No :</span> {{ doc.name }}<br>
+        <span style="font-weight:bold;">Date :</span> {{ frappe.utils.format_date(doc.transaction_date) }}
+    </td>
+    <td width="50%" style="font-size:16px;line-height:1;padding:1px 6px;text-align:left;">
+        <b>PO Type :</b> {{ doc.custom_po_type or "" }}<br>
+        <b>Place of Supply :</b> {{ doc.place_of_supply or "Tamil Nadu" }}
+    </td>
+</tr>
+    </table>
+
+  <table class="inner-border outer-left outer-right"
+    style="width:100%; table-layout:fixed; border-collapse:collapse; margin-top:-1px;">
+
+    <tr class="header-grey">
+        <td width="50%" style="font-size:17px;font-weight:bold;">Vendor Address</td>
+        <td width="50%" style="font-size:17px;font-weight:bold;">Deliver To</td>
+    </tr>
+
+    <tr>
+        <!-- Vendor Address -->
+        <td style="font-size:12px;line-height:1;vertical-align:top;padding:2px 8px;">
+
+            {% if doc.supplier %}
+                {% set supplier = frappe.get_doc("Supplier", doc.supplier) %}
+                <span style="font-size:16px;font-weight:bold;">
+                    {{ supplier.supplier_name }}
+                </span><br>
+            {% endif %}
+
+            {% if doc.supplier_address %}
+                {% set supp_addr = frappe.get_doc("Address", doc.supplier_address) %}
+
+                <span style="font-size:12px;">
+                    {{ supp_addr.address_line1 or "" }}<br>
+
+                    {% if supp_addr.address_line2 %}
+                        {{ supp_addr.address_line2 }}<br>
+                    {% endif %}
+
+                    {{ supp_addr.city or "" }}
+                    {% if supp_addr.state %}, {{ supp_addr.state }}{% endif %}<br>
+
+                    {{ supp_addr.pincode or "" }}
+                    {% if supp_addr.country %} {{ supp_addr.country }}{% endif %}<br>
+
+                    {% if supp_addr.phone %}
+                        <span style="font-weight:bold;">Phone :</span> {{ supp_addr.phone }}<br>
+                    {% endif %}
+
+                    {% if supp_addr.gstin %}
+                        <span style="font-weight:bold;">GSTIN :</span> {{ supp_addr.gstin }}<br>
+                    {% endif %}
+                </span>
+            {% endif %}
+
+        </td>
+
+        <!-- Deliver To -->
+        <td style="font-size:12px;line-height:1;vertical-align:top;padding:2px 8px;">
+
+            {% if doc.shipping_address %}
+                {% set ship_addr = frappe.get_doc("Address", doc.shipping_address) %}
+
+                <!-- Heading -->
+                <span style="font-size:16px;font-weight:bold;">
+                    {% if doc.custom_delivery_to %}
+                        {% set delivery_supplier = frappe.get_doc("Supplier", doc.custom_delivery_to) %}
+                        {{ delivery_supplier.supplier_name }}
+                    {% else %}
+                        {{ ship_addr.address_title or "" }}
+                    {% endif %}
+                </span><br>
+
+                <!-- Address -->
+                <span style="font-size:12px;">
+                    {{ ship_addr.address_line1 or "" }}<br>
+
+                    {% if ship_addr.address_line2 %}
+                        {{ ship_addr.address_line2 }}<br>
+                    {% endif %}
+
+                    {{ ship_addr.city or "" }}
+                    {% if ship_addr.state %}, {{ ship_addr.state }}{% endif %}<br>
+
+                    {{ ship_addr.pincode or "" }}
+                    {% if ship_addr.country %} {{ ship_addr.country }}{% endif %}<br>
+
+                    {% if ship_addr.phone %}
+                        <span style="font-weight:bold;">Phone :</span> {{ ship_addr.phone }}<br>
+                    {% endif %}
+
+                    {% if ship_addr.gstin %}
+                        <span style="font-weight:bold;">GSTIN :</span> {{ ship_addr.gstin }}<br>
+                    {% endif %}
+                </span>
+
+            {% endif %}
+
+        </td>
+    </tr>
+
+</table>
+
+    {% set ns = namespace(show_discount=false, total_qty=0, total_amount=0) %}
+    {% for d in doc.items %}
+    {% if d.discount_percentage and d.discount_percentage > 0 %}
+    {% set ns.show_discount = true %}
+    {% endif %}
+    {% set ns.total_qty = ns.total_qty + d.qty %}
+    {% set ns.total_amount = ns.total_amount + (d.total or d.amount) %}
+    {% endfor %}
+
+    <table class="inner-border outer-left outer-right outer-bottom item-table"
+        style="width:100%; border-collapse:collapse; margin-top:-1px;">
+
+        <thead>
+            <tr class="header-grey">
+                <th width="6%">#</th>
+                <th width="{{ '38%' if ns.show_discount else '46%' }}">Item & Description</th>
+                <th width="12%">Qty</th>
+                <th width="8%">UOM</th>
+                <th width="15%">Rate</th>
+                {% if ns.show_discount %}
+                <th width="8%">Disc</th>
+                {% endif %}
+                <th width="16%">Amount</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in doc.items %}
+
+            <tr>
+                <td class="text-center">{{ loop.index }}</td>
+                <td>
+                    <div style="font-weight:bold;line-height:1;">{{ item.item_name }}</div>
+                    {% if item.description %}
+                    <div class="small-text">{{ item.description }}</div>
+                    {% endif %}
+                </td>
+                <td class="text-center" style="white-space:nowrap;">{{ "%.2f"|format(item.qty) }}</td>
+                <td class="text-center" style="white-space:nowrap;">{{ item.uom }}</td>
+                <td class="text-right" style="white-space:nowrap;">
+                    {% set r = "%.3f"|format(item.rate) %}
+                    {{ r[:-1] if r.endswith('0') else r }}
+                </td>
+                {% if ns.show_discount %}
+                <td class="text-center" style="white-space:nowrap;">
+                    {% if item.discount_percentage and item.discount_percentage > 0 %}
+                    {{ item.discount_percentage }}%
+                    {% endif %}
+                </td>
+                {% endif %}
+                <td class="text-right" style="white-space:nowrap;">{{ inr(item.total or item.amount) }}</td>
+            </tr>
+
+            {% endfor %}
+
+            <tr class="item-total-row">
+                <td class="text-center" colspan="2" style="text-align:right;">Total</td>
+                <td class="text-center" style="white-space:nowrap;">{{ "%.2f"|format(ns.total_qty) }}</td>
+                <td></td>
+                <td></td>
+                {% if ns.show_discount %}
+                <td></td>
+                {% endif %}
+                <td class="text-right" style="white-space:nowrap;">{{ inr(ns.total_amount) }}</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <table class="inner-border outer-left outer-right outer-top outer-bottom bottom-content"
+        style="width:100%; border-collapse:collapse; margin-top:-1px; table-layout:fixed;">
+        <tr>
+
+            <td class="notes-col" width="60%">
+    <b>Terms & Conditions</b><br>
+            {% if doc.terms %}
+            {% set terms_text = doc.terms|replace("</p>", "\n")|replace("<br>", "\n")|replace("<br/>", "\n")|replace("<div>", "\n")|replace("<li>", "\n")|replace("<p>", "\n")|striptags|trim %}
+            {% set terms_text = terms_text|replace("- ", "\n- ") %}
+            {% for line in terms_text.split("\n") %}
+            {% if line.strip() %}
+            <div style="line-height:1;">{{ line.strip() }}</div>
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <div style="line-height:1;">- Please mention PO number in the invoice.</div>
+            <div style="line-height:1;">- 1 DC = 1 INVOICE</div>
+            <div style="line-height:1;">- Product composition as mentioned or discussed.</div>
+            <div style="line-height:1;">- Features as discussed.</div>
+            <div style="line-height:1;">- The specified cost is the "Landing Cost".</div>
+            <div style="line-height:1;">- Payment will be done only after the quality & quantity testing.</div>
+            <div style="line-height:1;">- Payment will be made within 30 days, after delivery.</div>
+            <div style="line-height:1;">- Item will be returned if the product does not meet the quality discussed.</div>
+            <div style="line-height:1;">- GST amount will be transferred or paid only after filing (payment proof) by you (vendor/supplier).</div>
+            <div style="line-height:1;">- This purchase order is subject to payment deduction if the item is not delivered on time. 1% or more of the whole PO value for every week (7 days) of delay.</div>
+            <div style="line-height:1;">- Please mention the PO/RO number in the invoice.</div>
+            <div style="line-height:1;">- We are hoping for a strong business relationship, Thank You.</div>
+            {% endif %}
+    </td>
+
+            <!-- RIGHT : TOTALS + SIGNATURE -->
+            <td class="totals-col" width="40%" style="vertical-align:top;">
+
+                <div class="totals-box">
+
+                    <table class="subtotal-table" style="font-size:13px;border-collapse:collapse;">
+                        <tr style="border:none !important;">
+                            <td style="border:none !important;">Sub Total</td>
+                            <td class="text-right" style="border:none !important;white-space:nowrap;">{{ currency_symbol }} {{ inr(doc.total) }}</td>
+                        </tr>
+
+                        {% for tax in doc.taxes %}
+                        <tr style="border:none !important;">
+                            <td style="border:none !important;">
+                                {% set tax_name = tax.description.replace('Input Tax ', '').replace('Output Tax ', '')
+                                %}
+                                {% set effective_rate = (tax.tax_amount / tax.net_amount * 100) if tax.net_amount else
+                                tax.rate %}
+                                {{ tax_name }} ({{ "%.1f"|format(effective_rate) }}%)
+                            </td>
+                            <td class="text-right" style="border:none !important;white-space:nowrap;">{{ currency_symbol }} {{ inr(tax.tax_amount) }}</td>
+                        </tr>
+                        {% endfor %}
+
+                        <tr class="total-row" style="border:none !important;">
+                            <td style="font-size:15px;border:none !important;">Total</td>
+                            <td class="text-right" style="font-size:15px;border:none !important;white-space:nowrap;">{{ currency_symbol }} {{ inr(doc.rounded_total) }}</td>
+                        </tr>
+                    </table>
+
+                    <div class="signature-box" style="border-top:1px solid #9e9e9e;margin-top:2px;">Authorized Signature</div>
+
+                </div>
+
+            </td>
+
+        </tr>
+    </table>
+
+</div>
